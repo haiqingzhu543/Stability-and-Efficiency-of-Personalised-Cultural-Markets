@@ -25,7 +25,7 @@ class market_simulation(object):
         self.group_weights = np.zeros(self.n_groups)
         self.r = r
         self.initial_choices = np.random.randint(2, 4, size=self.n_items)
-
+        print("Setting: "+ str(self.n_groups) + " group(s)")
         # Divide the ratings into group ratings
         for group_id in range(self.n_groups):
             self.group_weights[group_id] = len(user_groups[group_id])
@@ -51,12 +51,12 @@ class market_simulation(object):
         self.appeals[np.isnan(self.appeals)] = homo_appeals[np.isnan(self.appeals)]
 
         # ??? Choose only unobserved items
-        # self.untrained = np.zeros((self.n_groups,self.n_items))
-        # for i in range(len(user_groups)):
-        #     nonzero_inds = np.nonzero(np.sum(untrained_mask[user_groups[i]],axis=0))[0]
-        #     self.untrained[i,nonzero_inds] = 1
-        # self.qualities = self.qualities*self.untrained
-        # self.appeals = self.appeals*self.untrained
+        self.untrained = np.zeros((self.n_groups,self.n_items))
+        for i in range(len(user_groups)):
+            nonzero_inds = np.nonzero(np.sum(untrained_mask[user_groups[i]],axis=0))[0]
+            self.untrained[i,nonzero_inds] = 1
+        self.qualities = self.qualities*self.untrained
+        self.appeals = self.appeals*self.untrained
 
         # Uncomment to save quality and appeal data
         #np.save("qualities.npy",self.qualities)
@@ -131,6 +131,10 @@ class market_simulation(object):
                                                          0.1038, 0.1019, 0.1048, 0.1061, 0.1142,
                                                          0.1260, 0.1316, 0.1484, 0.1504, 0.1553,
                                                          0.1699, 0.1727, 0.1783, 0.1885, 0.2206]
+        #plt.bar(np.arange(50)+1,ranking_factors_r)
+        #plt.xlabel("Rank")
+        #plt.ylabel("Factor")
+        #plt.show()
         # Truncate
         ranking_factors = np.zeros(self.n_items)
         ranking_factors[:50] = ranking_factors_r

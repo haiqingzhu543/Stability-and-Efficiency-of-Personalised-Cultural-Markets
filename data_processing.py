@@ -42,7 +42,7 @@ for uid, iid, true_r, est, _ in predictions_testing:
 np.save('full_rating_matrix.npy',complete_matrix)
 np.save('untrained_mask.npy',untrained_mask)
 
-n_groups = 100
+n_groups = 200
 # Group processing_argmax method
 """
 user_attributes = np.asarray(algo.pu)
